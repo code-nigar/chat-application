@@ -1,0 +1,168 @@
+*{
+    font-family: 'Sora';
+}
+
+.flex-c{
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+.flex-r{
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+}
+
+.conf{
+    height: 93vh;
+    padding: 10px;
+    margin: 5px 0px 0px 0px;
+    border-radius: 1em;
+}
+#chatwindow{
+    gap: 4px;
+}
+#nav-panel{
+    width: 53px;
+    background-color: rgb(9, 59, 59);
+    justify-content: space-between;
+    color: white;
+    text-transform: capitalize;
+}
+#nav-top{
+    gap: 15px;
+    justify-content: flex-start;
+}
+#convo-panel{
+    width:20vw;
+    background: linear-gradient(0deg, #11989811, #1198982f, #11989811);
+}
+#convo-list{
+    width: inherit;
+    height: inherit;
+    gap: 5px;
+    justify-content: flex-start;
+}
+#convo-list::before{
+    content: 'Begin conversation';
+    font-weight: 300;
+    letter-spacing: 0em;
+    font-family: 'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif;
+    margin-bottom: 4px;
+    opacity: 0.5;
+}
+.convo-icon{
+    background: white;
+    color: #000;
+    width: 30px; 
+    height: 30px;
+    border-radius: 50%;
+    display: flex; /* or inline-flex */
+    align-items: center; 
+    justify-content: center;
+    text-transform: uppercase;
+    margin-left: 5px;
+}
+.convo-list-item{
+    display: flex;
+    justify-content: space-between;
+    align-items: baseline;
+    background-color: rgba(0, 0, 0, 0.055);
+    width: inherit;
+    padding: 5px 3px;
+    border: #999 1px solid;
+    border-radius: 5px;
+    gap: 7px;
+    transition: all ease 0.5s;
+    overflow: hidden;
+}
+.convo-header{
+    width: 99%;
+    justify-content: space-between;
+}
+.convo-header-user{
+    display: inline-flex;
+    justify-content: left;
+    align-items: baseline;
+    font-weight: 600;
+    width: 80%;
+}
+.convo-list-item:hover{
+    background-color: rgba(0,0,0,0.2);
+}
+.convo-name{
+    color: rgba(0,0,0,0.9);
+    padding: 5px;
+    margin-left: 4px;
+    height: 12px;
+    text-transform: capitalize;
+    text-align: left;
+    width: 60%;
+    overflow: hidden;
+}
+.convo-lastseen{
+    font-size: x-small;
+    font-weight: 500;
+    width: 15%;
+}
+.convo-last-message{
+    display: block;
+    font-family: 'Poppins', sans-serif;
+    font-size: smaller;
+    padding-top: 4px;
+    margin: 0 8px 5px 8px;
+    text-align: left;
+    white-space: nowrap; 
+    overflow: hidden;
+    text-overflow: ellipsis; 
+    width: 90%;
+}
+#chat-panel{
+    width:50vw;
+    background-color: #4eb9951c;
+    justify-content: space-between;
+}
+#chat-header{
+    background-color: rgba(0,0,0,0.1);
+    width: inherit;
+    height: 8vh;
+}
+#chat-body{
+    background-color: rgba(0,0,0,0.1);
+    width: inherit;
+    height: 70vh;
+}
+#chat-input{
+    margin-bottom: 10px;
+    height: 8vh;
+    width: inherit;
+    gap: 8px;
+    background-color: rgba(0,0,0,0.1);
+    padding: 0.7em 0em;
+}
+#chat-input>input{
+    width: 43vw;
+    height: inherit;
+    margin-left: 5px;
+}
+#send-btn{
+    height: inherit;
+    margin-right: 5px;
+}
+#username{
+    writing-mode: vertical-lr;
+    margin: auto;
+    margin-bottom: 6px;
+}
+#logout-btn{
+    background-color: transparent;
+    color: white;
+    border: none;
+    font-size: 30px;
+    transition: all ease 0.75s;
+}
+#logout-btn:hover{
+    color: rgb(200, 200, 200)
+}

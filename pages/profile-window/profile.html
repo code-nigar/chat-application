@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>profile</title>
+    <link href="../chat-window/chatwindow.css" rel="stylesheet">
+    <link href="./profile.css" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Exo:wght@300;400;600&family=Sora:wght@100;300;400;600&display=swap" rel="stylesheet">
+    <script src="https://kit.fontawesome.com/9b85e336b0.js" crossorigin="anonymous"></script>
+    <script src="https://cdn.lordicon.com/pzdvqjsp.js"></script>
+    <script src="//cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+</head>
+<body>
+  <script src="https://cdn.lordicon.com/pzdvqjsp.js"></script>
+  <div id="chatwindow" class="flex-r">
+    <div id="nav-panel" class="flex-c conf">
+        <div id="nav-top" class="flex-c">
+          <a href="#" id="home-btn" class="nav-ico" style="background-color: rgba(255,255,255,0.2); padding: 5px; border-radius: 5px;">
+            <lord-icon
+              src="https://cdn.lordicon.com/bhfjfgqz.json"
+              trigger="hover"
+              colors="primary:#ffffff"
+              style="width: 40px; height: 40px"
+            >
+            </lord-icon>
+          </a>
+          <a href="../chat-window/chatwindow.html" id="home-btn" class="nav-ico">
+            <lord-icon
+              src="https://cdn.lordicon.com/hpivxauj.json"
+              trigger="hover"
+              colors="primary:#ffffff"
+              style="width: 40px; height: 40px"
+            >
+            </lord-icon>
+          </a>
+          <a href="" id="home-btn" class="nav-ico">
+            <lord-icon
+              src="https://cdn.lordicon.com/pnhskdva.json"
+              trigger="hover"
+              colors="primary:#ffffff"
+              style="width: 40px; height: 40px"
+            >
+            </lord-icon>
+          </a>
+          <a href="" id="home-btn" class="nav-ico">
+            <lord-icon
+              src="https://cdn.lordicon.com/hwuyodym.json"
+              trigger="hover"
+              colors="primary:#ffffff"
+              style="width: 40px; height: 40px"
+            >
+            </lord-icon>
+          </a>
+        </div>
+        <div id="bottom-nav">
+          <div id="username"><!--currently logged-in username--></div>
+          <button id="logout-btn">
+            <i class="fa-solid fa-right-from-bracket"></i>
+          </button>
+        </div>
+      </div>
+    <div id="profile-panel" class="flex-c conf">
+      <div id="profile-pic" class="flex-c">
+        <div id="profile-icon"></div>
+        <img id="profile-image" src="https://static.vecteezy.com/system/resources/previews/002/318/271/original/user-profile-icon-free-vector.jpg"/>
+        <input type="file" id="file">
+        <label for="file" id="fileUpload-btn">Change photo</label>
+      </div>
+      <div id="profile-name" contenteditable="true"></div>
+      <button id="save-btn">Save</button>
+    </div>
+  </div>
+</body>
+<script type="module" src="./profile.js"></script>
+</html>

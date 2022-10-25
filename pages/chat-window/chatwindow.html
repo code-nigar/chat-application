@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Chatting..</title>
+    <link href="../chat-window/chatwindow.css" rel="stylesheet" />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Exo:wght@300;400;600&family=Sora:wght@100;300;400;600&display=swap"
+      rel="stylesheet"
+    />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Poppins&display=swap"
+      rel="stylesheet"
+    />
+    <script
+      src="https://kit.fontawesome.com/9b85e336b0.js"
+      crossorigin="anonymous"
+    ></script>
+    <script src="https://cdn.lordicon.com/pzdvqjsp.js"></script>
+  </head>
+  <body>
+    <div id="chatwindow" class="flex-r">
+      <div id="nav-panel" class="flex-c conf">
+        <div id="nav-top" class="flex-c">
+          <a href="../profile-window/profile.html" id="home-btn" class="nav-ico">
+            <lord-icon
+              src="https://cdn.lordicon.com/bhfjfgqz.json"
+              trigger="hover"
+              colors="primary:#ffffff"
+              style="width: 40px; height: 40px"
+            >
+            </lord-icon>
+          </a>
+          <a
+            href="#"
+            id="home-btn"
+            class="nav-ico"
+            style="
+              background-color: rgba(255, 255, 255, 0.2);
+              padding: 5px;
+              border-radius: 5px;
+            "
+          >
+            <lord-icon
+              src="https://cdn.lordicon.com/hpivxauj.json"
+              trigger="hover"
+              colors="primary:#ffffff"
+              style="width: 40px; height: 40px"
+            >
+            </lord-icon>
+          </a>
+          <a href="" id="home-btn" class="nav-ico">
+            <lord-icon
+              src="https://cdn.lordicon.com/pnhskdva.json"
+              trigger="hover"
+              colors="primary:#ffffff"
+              style="width: 40px; height: 40px"
+            >
+            </lord-icon>
+          </a>
+          <a href="" id="home-btn" class="nav-ico">
+            <lord-icon
+              src="https://cdn.lordicon.com/hwuyodym.json"
+              trigger="hover"
+              colors="primary:#ffffff"
+              style="width: 40px; height: 40px"
+            >
+            </lord-icon>
+          </a>
+        </div>
+        <div id="bottom-nav">
+          <div id="username"><!--currently logged-in username--></div>
+          <button id="logout-btn">
+            <i class="fa-solid fa-right-from-bracket"></i>
+          </button>
+        </div>
+      </div>
+      <div id="convo-panel" class="flex-c conf">
+        <div id="convo-list" class="flex-c">
+          <!-- list existing users for chat-->
+          <!-- <button class="convo-list-item flex-c"> 
+            <div class="flex-r convo-header">
+              <div class="flex-r convo-header-user">
+                <div class="convo-icon">s</div>
+                <div class="convo-name">sharjeel sultan</div>
+              </div>
+              <div class="convo-lastseen">2 min</div>
+            </div>
+            <div class="convo-last-message flex-r">hi how you doing Lorem ipsum, dolor sit amet consectetur adipisicing elit. Delectus quidem ab ex soluta ad possimus vel, fugiat quam, voluptatibus, sapiente voluptates eum architecto doloremque omnis aspernatur sunt eveniet id officiis!</div>
+          </button> -->
+        </div>
+      </div>
+      <div id="chat-panel" class="flex-c conf">
+        <div id="chat-header" class="flex-r">
+          <div id="chatter-profile-ico"></div>
+          <div id="chatter-name"></div>
+        </div>
+        <div id="chat-body">
+          <!--messages to and fro-->
+        </div>
+        <div id="chat-input" class="flex-r">
+          <input type="text" />
+          <button id="send-btn">send</button>
+        </div>
+      </div>
+    </div>
+  </body>
+  <script type="module" src="./chat.js"></script>
+</html>

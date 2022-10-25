@@ -1,0 +1,67 @@
+#profile-panel{
+    width:70vw;
+    background-color: #4eb9951c;
+    justify-content: start;
+}
+#profile-pic{
+    /* background: white; */
+    width: 150px;
+    color: #000;
+    border-radius: 50%;
+    display: flex; /* or inline-flex */
+    align-items: center; 
+    justify-content: center;
+    text-transform: uppercase;
+    position: relative;
+    top: 60px;
+}
+#profile-icon{
+    position: relative;
+    top:80px;
+    font-size: large;
+}
+#profile-image{
+    width: 150px; 
+    height: 150px;
+    border-radius: 50%;
+}
+#profile-name{
+    height: 2em;
+    position: relative;
+    top: 80px;
+}
+#profile-name::after{
+    content: 'edit';
+    margin-left: 4px;
+    font-size: small;
+    font-weight: 200;
+    padding: 3px;
+    border-bottom: #888 1px solid;
+    border-radius: 4px;
+    display: none;
+    cursor:pointer;
+}
+#profile-name:hover:after{
+    display:inline-block;
+}
+#save-btn{
+    position: relative;
+    top: 125px;
+}
+#file{
+    display: none;
+}
+#fileUpload-btn{
+    font-size: x-small;
+    position: absolute;
+    background-color: rgba(0, 0, 0, 0.829);
+    width: 150px;
+    height: 0;
+    color: #fff;
+    top: 0;
+    text-align: center;
+    display: none;
+    margin: auto;
+    padding: 50% 0;
+    border-radius: 50%;
+}
