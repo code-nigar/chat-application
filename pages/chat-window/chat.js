@@ -67,7 +67,7 @@ function makelist(userArr){
   <button class="convo-list-item flex-c"> 
   <div class="flex-r convo-header">
     <div class="flex-r convo-header-user">
-      <div class="convo-icon">${userArr[i].username[0]}</div>
+      <div class="convo-icon">${checkforImg(userArr,i)}</div>
       <div class="convo-name">${userArr[i].username}</div>
     </div>
     <div class="convo-lastseen">2 min</div>
@@ -75,6 +75,15 @@ function makelist(userArr){
   <div class="convo-last-message flex-r">hi how you doing Lorem ipsum, dolor sit amet consectetur adipisicing elit. Delectus quidem ab ex soluta ad possimus vel, fugiat quam, voluptatibus, sapiente voluptates eum architecto doloremque omnis aspernatur sunt eveniet id officiis!</div>
 </button>
      `
+  }
+}
+function checkforImg(usrArrr,indx){
+  if(usrArrr[indx].ImageURL){
+    return(
+      `<img class="convo-icon-image" src=${usrArrr[indx].ImageURL}>`
+    )
+  }else{
+    return `${usrArrr[indx].username[0]}`;
   }
 }
 //FUNCTION for adding click event .. to begin conversation with selected user
