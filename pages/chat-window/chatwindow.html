@@ -101,10 +101,11 @@
         </div>
         <div id="chat-body">
           <!--messages to and fro-->
+          <ul id="messageList"></ul>
         </div>
         <div id="chat-input" class="flex-r">
-          <input type="text" />
-          <button id="send-btn">send</button>
+          <input type="text" id="messageValue"/>
+          <button id="send-btn" onclick="sendMessages()">send</button>
         </div>
       </div>
     </div>

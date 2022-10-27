@@ -143,6 +143,10 @@
     width: inherit;
     height: 70vh;
 }
+#messageList {
+    display: flex;
+    flex-direction: column-reverse;
+}
 #chat-input{
     margin-bottom: 10px;
     height: 8vh;

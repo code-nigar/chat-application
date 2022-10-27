@@ -1,7 +1,7 @@
 import { initializeApp } from "https://www.gstatic.com/firebasejs/9.10.0/firebase-app.js";
 import { getAnalytics } from "https://www.gstatic.com/firebasejs/9.10.0/firebase-analytics.js";
 import { getAuth, createUserWithEmailAndPassword, signInWithEmailAndPassword} from "https://www.gstatic.com/firebasejs/9.10.0/firebase-auth.js";
-import { getDatabase, ref, set, onValue } from "https://www.gstatic.com/firebasejs/9.10.0/firebase-database.js";
+import { getDatabase, ref, set, update,} from "https://www.gstatic.com/firebasejs/9.10.0/firebase-database.js";
 
 const firebaseConfig = {
   apiKey: "AIzaSyBdzIZhQEQ8y59mwj1N1fTyZQcm_GN0qvs",
@@ -37,6 +37,7 @@ registrationBtn.addEventListener('click', function(){
     set(ref(db, `users/${user.uid}`), {
       username: userName,
       email: email,
+      uid: user.uid
     });
     //succeess sweet alert
     Swal.fire({
@@ -86,12 +87,7 @@ LoginBtn.addEventListener('click', function(){
       // Signed in 
       const user = userCredential.user;
       console.log("User => ",user);
-
-      //read data from realtime database
-      const db = getDatabase();
-      onValue(ref(db, `users/${user.uid}`), (data)=>{
-        console.log("data =>",data.val());
-      })
+      
       localStorage.setItem("current-user-id", user.uid);
       //succeess sweet alert
       Swal.fire({

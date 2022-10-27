@@ -11,6 +11,22 @@ import {
   onValue 
 } from "https://www.gstatic.com/firebasejs/9.10.0/firebase-database.js";
 
+import {
+  getFirestore,
+  doc,
+  setDoc,
+  getDoc,
+  updateDoc,
+  arrayUnion,
+  arrayRemove,
+  collection,
+  query,
+  where,
+  getDocs,
+  addDoc,
+  onSnapshot,
+  orderBy,
+} from "https://www.gstatic.com/firebasejs/9.10.0/firebase-firestore.js";
 
 const firebaseConfig = {
   apiKey: "AIzaSyBdzIZhQEQ8y59mwj1N1fTyZQcm_GN0qvs",
@@ -22,10 +38,11 @@ const firebaseConfig = {
   measurementId: "G-N6FKYWXXS7"
 };
 const app = initializeApp(firebaseConfig);
-
+const dbf = getFirestore(app);
 
 //GET CURRENT USER
-const current_uid = localStorage.getItem("current-user-id");
+var current_uid;
+var selectedUserforChat;
 let un = document.getElementById("username");
 
 const auth = getAuth();
@@ -34,6 +51,7 @@ onAuthStateChanged(auth, (user) => {
     // User is signed in, see docs for a list of available properties
     // https://firebase.google.com/docs/reference/js/firebase.User
     console.log(user);
+    current_uid = user.uid;
     const db = getDatabase();
       onValue(ref(db, `users/${user.uid}`), (data)=>{
         console.log("data =>",data.val());
@@ -94,9 +112,100 @@ async function addClickFun(usrArr){
    itemLists[i].addEventListener('click', ()=>{
      //do something
      document.getElementById("chatter-name").innerHTML = usrArr[i].username;
+     selectedUserforChat = usrArr[i];
+     console.log("start chatting with"+ selectedUserforChat.uid);
+     startChat(selectedUserforChat.uid, current_uid);
    })
   }
 }
+
+//CHAT FUNCTIONALITY
+/**/ 
+let chatBox = document.getElementById("chat-body");
+let chatterDP = document.getElementById("chatter-profile-ico");
+let messageList = document.getElementById("messageList");
+let currentFriendChat;
+let uniqueUid;
+
+const startChat = async (friendUid, currentUid) => {
+  currentFriendChat = friendUid;
+  messageList.innerHTML = "";
+  if (currentUid > friendUid) {
+    uniqueUid = currentUid + friendUid;
+  } else {
+    uniqueUid = friendUid + currentUid;
+  }
+
+  const docRef = doc(dbf, "messages", `${uniqueUid}`);
+  const docSnap = await getDoc(docRef);
+
+    if (docSnap.exists()) {
+      console.log("Document data:", docSnap.data());
+      
+      const unsub = onSnapshot(doc(dbf, "messages", `${uniqueUid}`), (doc) => {
+        let xnm = doc.data().messageList;
+        console.log(xnm);
+        for(let i=0; i<xnm.length; i++){
+          messageList.innerHTML += `
+       <li>${xnm[i].message}</li>
+       `;
+        } 
+      }); 
+    } 
+    else {
+    // doc.data() will be undefined in this case
+    console.log("No such document!");
+    await setDoc(doc(dbf, "messages", `${uniqueUid}`), {
+      messageList : arrayUnion(
+        {
+          message: "",
+          sender: auth.currentUser.uid,
+          getter: currentFriendChat,
+          chatId: uniqueUid,
+          timestamp: new Date()
+        }
+      )
+    });
+    console.log("new document created JN!");
+    }
+  // const q = query(
+  //   collection(dbf, "messages"),
+  //   where("chatId", "==", uniqueUid),
+  //   orderBy("timestamp", "desc")
+  // );
+  // const unsubscribe = onSnapshot(q, (querySnapshot) => {
+  //   messageList.innerHTML = "";
+
+  //   querySnapshot.forEach((doc) => {
+  //     messageList.innerHTML += `
+  //     <li>${doc.data().message}</li>
+  //     `;
+  //   });
+  // });
+};
+
+window.startChat = startChat;
+let messageValue = document.getElementById("messageValue");
+
+const sendMessages = async () => {
+  messageList.innerHTML = "";
+  await updateDoc(doc(dbf, "messages", `${uniqueUid}`), {
+    messageList : arrayUnion(
+      {
+        message: messageValue.value,
+        sender: auth.currentUser.uid,
+        getter: currentFriendChat,
+        chatId: uniqueUid,
+        timestamp: new Date()
+      }
+    )
+  }).then(
+    console.log("message sent"))
+  messageValue.value = "";
+};
+
+window.sendMessages = sendMessages;
+/* */
 
 //logout
 var LogoutBtn = document.getElementById("logout-btn");
