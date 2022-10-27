@@ -1,14 +1,14 @@
 import { initializeApp } from "https://www.gstatic.com/firebasejs/9.10.0/firebase-app.js";
-import { 
+import {
   getAuth,
   onAuthStateChanged,
-  signOut 
+  signOut,
 } from "https://www.gstatic.com/firebasejs/9.10.0/firebase-auth.js";
-import { 
-  getDatabase, 
-  ref, 
-  set, 
-  onValue 
+import {
+  getDatabase,
+  ref,
+  set,
+  onValue,
 } from "https://www.gstatic.com/firebasejs/9.10.0/firebase-database.js";
 
 import {
@@ -35,7 +35,7 @@ const firebaseConfig = {
   storageBucket: "chat-app-45705.appspot.com",
   messagingSenderId: "746028105598",
   appId: "1:746028105598:web:fa2d189c74759d5492fd2f",
-  measurementId: "G-N6FKYWXXS7"
+  measurementId: "G-N6FKYWXXS7",
 };
 const app = initializeApp(firebaseConfig);
 const dbf = getFirestore(app);
@@ -53,10 +53,10 @@ onAuthStateChanged(auth, (user) => {
     console.log(user);
     current_uid = user.uid;
     const db = getDatabase();
-      onValue(ref(db, `users/${user.uid}`), (data)=>{
-        console.log("data =>",data.val());
-        un.innerHTML = data.val().username;
-      })
+    onValue(ref(db, `users/${user.uid}`), (data) => {
+      console.log("data =>", data.val());
+      un.innerHTML = data.val().username;
+    });
   } else {
     // User is signed out
   }
@@ -64,7 +64,7 @@ onAuthStateChanged(auth, (user) => {
 
 //GENERATE EXISTING USER LIST FOR CONVERSATION by fetching from Firebase
 const db = getDatabase();
-const existingusers = ref(db, 'users');
+const existingusers = ref(db, "users");
 onValue(existingusers, (snapshot) => {
   const data = snapshot.val();
   // updateStarCount(postElement, data);
@@ -73,54 +73,52 @@ onValue(existingusers, (snapshot) => {
   console.log(propertyNames);
   let indx_of_cuid = propertyNames.indexOf(current_uid);
   var otherUsers = Object.values(data);
-  otherUsers.splice(indx_of_cuid,1);
+  otherUsers.splice(indx_of_cuid, 1);
   console.log(otherUsers);
   addClickFun(otherUsers);
 });
 
 //FUNCTION for making existing userList
-function makelist(userArr){
-  for(let i=0; i<userArr.length; i++){
-  document.getElementById("convo-list").innerHTML+=`
+function makelist(userArr) {
+  for (let i = 0; i < userArr.length; i++) {
+    document.getElementById("convo-list").innerHTML += `
   <button class="convo-list-item flex-c"> 
   <div class="flex-r convo-header">
     <div class="flex-r convo-header-user">
-      <div class="convo-icon">${checkforImg(userArr,i)}</div>
+      <div class="convo-icon">${checkforImg(userArr, i)}</div>
       <div class="convo-name">${userArr[i].username}</div>
     </div>
     <div class="convo-lastseen">2 min</div>
   </div>
   <div class="convo-last-message flex-r">hi how you doing Lorem ipsum, dolor sit amet consectetur adipisicing elit. Delectus quidem ab ex soluta ad possimus vel, fugiat quam, voluptatibus, sapiente voluptates eum architecto doloremque omnis aspernatur sunt eveniet id officiis!</div>
 </button>
-     `
+     `;
   }
 }
-function checkforImg(usrArrr,indx){
-  if(usrArrr[indx].ImageURL){
-    return(
-      `<img class="convo-icon-image" src=${usrArrr[indx].ImageURL}>`
-    )
-  }else{
+function checkforImg(usrArrr, indx) {
+  if (usrArrr[indx].ImageURL) {
+    return `<img class="convo-icon-image" src=${usrArrr[indx].ImageURL}>`;
+  } else {
     return `${usrArrr[indx].username[0]}`;
   }
 }
 //FUNCTION for adding click event .. to begin conversation with selected user
-async function addClickFun(usrArr){
-  await makelist(usrArr);   //wait for userlist to appear on DOM
-  var itemLists = document.getElementsByClassName('convo-list-item'); // 5 items
-  for(let i=0; i<itemLists.length; i++){
-   itemLists[i].addEventListener('click', ()=>{
-     //do something
-     document.getElementById("chatter-name").innerHTML = usrArr[i].username;
-     selectedUserforChat = usrArr[i];
-     console.log("start chatting with"+ selectedUserforChat.uid);
-     startChat(selectedUserforChat.uid, current_uid);
-   })
+async function addClickFun(usrArr) {
+  await makelist(usrArr); //wait for userlist to appear on DOM
+  var itemLists = document.getElementsByClassName("convo-list-item"); // 5 items
+  for (let i = 0; i < itemLists.length; i++) {
+    itemLists[i].addEventListener("click", () => {
+      //do something
+      document.getElementById("chatter-name").innerHTML = usrArr[i].username;
+      selectedUserforChat = usrArr[i];
+      console.log("start chatting with" + selectedUserforChat.uid);
+      startChat(selectedUserforChat.uid, current_uid);
+    });
   }
 }
 
 //CHAT FUNCTIONALITY
-/**/ 
+/**/
 let chatBox = document.getElementById("chat-body");
 let chatterDP = document.getElementById("chatter-profile-ico");
 let messageList = document.getElementById("messageList");
@@ -139,35 +137,32 @@ const startChat = async (friendUid, currentUid) => {
   const docRef = doc(dbf, "messages", `${uniqueUid}`);
   const docSnap = await getDoc(docRef);
 
-    if (docSnap.exists()) {
-      console.log("Document data:", docSnap.data());
-      
-      const unsub = onSnapshot(doc(dbf, "messages", `${uniqueUid}`), (doc) => {
-        let xnm = doc.data().messageList;
-        console.log(xnm);
-        for(let i=0; i<xnm.length; i++){
-          messageList.innerHTML += `
+  if (docSnap.exists()) {
+    console.log("Document data:", docSnap.data());
+
+    const unsub = onSnapshot(doc(dbf, "messages", `${uniqueUid}`), (doc) => {
+      let xnm = doc.data().messageList;
+      console.log(xnm);
+      for (let i = 0; i < xnm.length; i++) {
+        messageList.innerHTML += `
        <li>${xnm[i].message}</li>
        `;
-        } 
-      }); 
-    } 
-    else {
+      }
+    });
+  } else {
     // doc.data() will be undefined in this case
     console.log("No such document!");
     await setDoc(doc(dbf, "messages", `${uniqueUid}`), {
-      messageList : arrayUnion(
-        {
-          message: "",
-          sender: auth.currentUser.uid,
-          getter: currentFriendChat,
-          chatId: uniqueUid,
-          timestamp: new Date()
-        }
-      )
+      messageList: arrayUnion({
+        message: "",
+        sender: auth.currentUser.uid,
+        getter: currentFriendChat,
+        chatId: uniqueUid,
+        timestamp: new Date(),
+      }),
     });
     console.log("new document created JN!");
-    }
+  }
   // const q = query(
   //   collection(dbf, "messages"),
   //   where("chatId", "==", uniqueUid),
@@ -190,17 +185,14 @@ let messageValue = document.getElementById("messageValue");
 const sendMessages = async () => {
   messageList.innerHTML = "";
   await updateDoc(doc(dbf, "messages", `${uniqueUid}`), {
-    messageList : arrayUnion(
-      {
-        message: messageValue.value,
-        sender: auth.currentUser.uid,
-        getter: currentFriendChat,
-        chatId: uniqueUid,
-        timestamp: new Date()
-      }
-    )
-  }).then(
-    console.log("message sent"))
+    messageList: arrayUnion({
+      message: messageValue.value,
+      sender: auth.currentUser.uid,
+      getter: currentFriendChat,
+      chatId: uniqueUid,
+      timestamp: new Date(),
+    }),
+  }).then(console.log("message sent"));
   messageValue.value = "";
 };
 
@@ -210,17 +202,19 @@ window.sendMessages = sendMessages;
 //logout
 var LogoutBtn = document.getElementById("logout-btn");
 
-LogoutBtn.addEventListener('click', function(){
-    const auth = getAuth();
-  signOut(auth).then(() => {
-    console.log("Sign-out successful");// Sign-out successful.
-  }).catch((error) => {
-    console.log(error);// An error happened.
-  });
-    localStorage.setItem("current-user-id", "");
-    goBack();
-})
+LogoutBtn.addEventListener("click", function () {
+  const auth = getAuth();
+  signOut(auth)
+    .then(() => {
+      console.log("Sign-out successful"); // Sign-out successful.
+    })
+    .catch((error) => {
+      console.log(error); // An error happened.
+    });
+  localStorage.setItem("current-user-id", "");
+  goBack();
+});
 
-function goBack(){
-    window.location.pathname = "index.html";
+function goBack() {
+  window.location.pathname = "index.html";
 }
