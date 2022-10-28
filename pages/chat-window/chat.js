@@ -7,6 +7,7 @@ import {
 import {
   getDatabase,
   ref,
+  update,
   set,
   onValue,
 } from "https://www.gstatic.com/firebasejs/9.10.0/firebase-database.js";
@@ -57,6 +58,10 @@ onAuthStateChanged(auth, (user) => {
       console.log("data =>", data.val());
       un.innerHTML = data.val().username;
     });
+    update(ref(db,`users/${user.uid}`),{  //change active status to online
+      activeStatus : true,
+      lastLogin : FullTimeString(new Date())
+    });
   } else {
     // User is signed out
   }
@@ -88,7 +93,7 @@ function makelist(userArr) {
       <div class="convo-icon">${checkforImg(userArr, i)}</div>
       <div class="convo-name">${userArr[i].username}</div>
     </div>
-    <div class="convo-lastseen">2 min</div>
+    <div class="convo-lastseen">${checkforActiveStatus(userArr, i)}</div>
   </div>
   <div class="convo-last-message flex-r">hi how you doing Lorem ipsum, dolor sit amet consectetur adipisicing elit. Delectus quidem ab ex soluta ad possimus vel, fugiat quam, voluptatibus, sapiente voluptates eum architecto doloremque omnis aspernatur sunt eveniet id officiis!</div>
 </button>
@@ -101,6 +106,18 @@ function checkforImg(usrArrr, indx) {
     return `<img class="convo-icon-image" src=${usrArrr[indx].ImageURL}>`;
   } else {
     return `${usrArrr[indx].username[0]}`;
+  }
+}
+//FUNCTION to render active status for existing users list
+function checkforActiveStatus(usrArrr, indx) {
+  if (usrArrr[indx].activeStatus) {
+    return `online`;
+  } else {
+    if(usrArrr[indx].lastLogin){
+      return `${showLastActive(usrArrr[indx].lastLogin)}`;
+    }
+    else return `nnn`;
+    //return `${(usrArrr[indx].lastLogin)}`;
   }
 }
 //FUNCTION for adding click event .. to begin conversation with selected user
@@ -229,13 +246,19 @@ LogoutBtn.addEventListener("click", function () {
   const auth = getAuth();
   signOut(auth)
     .then(() => {
+      localStorage.setItem("current-user-id", ""); 
+      const db = getDatabase();
+      update(ref(db,`users/${current_uid}`),{   //change active status to offline
+        activeStatus : false,
+        lastLogin : FullTimeString(new Date())
+      });
+      current_uid = "";
       console.log("Sign-out successful"); // Sign-out successful.
+      goBack();
     })
     .catch((error) => {
       console.log(error); // An error happened.
     });
-  localStorage.setItem("current-user-id", "");
-  goBack();
 });
 
 function goBack() {
@@ -255,4 +278,29 @@ function formatAMPM(date) {
   minutes = minutes < 10 ? '0'+minutes : minutes;
   var strTime = hours + ':' + minutes + ' ' + ampm;
   return strTime;
+}
+
+function FullTimeString(d){
+  let JustDate = d.toString().slice(4,15);
+  let JustTime = formatAMPM(d);
+  console.log(JustDate +" "+ JustTime);
+  return (JustDate +' '+ JustTime);
+}
+
+function showLastActive(fts){
+  let ftsYear = fts.slice(7,11);
+  let ftsMonth = fts.slice(0,3)
+  let ftsDate = fts.slice(0,11);
+  let ftsTime = fts.slice(12,20);
+  let today = new Date();
+  let todayYear = today.toDateString().slice(11,15);
+  let todayDate = today.toDateString().slice(4,15);
+  let todayMonth = today.toDateString().slice(4,7);
+  if(ftsYear === todayYear){
+    if(ftsMonth === todayMonth){
+      if(ftsDate === todayDate){
+        return (ftsTime);
+      }else {return (ftsDate);}
+    }else {return (ftsMonth);}
+  }else{return (ftsYear);}
 }

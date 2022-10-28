@@ -165,7 +165,7 @@
     overflow-y: scroll;
 }
 #messageList > li{
-    width: 50%;
+    max-width: 50%;
     margin-bottom: 8px;
     padding: 5px 12px;
     border: #999 1px solid;
