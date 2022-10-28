@@ -137,6 +137,7 @@
     background-color: rgba(0,0,0,0.1);
     width: inherit;
     height: 8vh;
+    border-radius: 30px 30px 70px 0px;
 }
 #chat-body{
     background-color: rgba(0,0,0,0.1);
@@ -145,7 +146,39 @@
 }
 #messageList {
     display: flex;
-    flex-direction: column-reverse;
+    flex-direction: column;
+    list-style: none;
+    margin:10px 0;
+    padding: 0;
+    height: inherit;
+}
+#messageList > li{
+    width: 50%;
+    margin-bottom: 8px;
+    padding: 5px 12px;
+    border: #999 1px solid;
+    display: flex;
+    justify-content: space-between;
+    flex-direction: row;
+    gap: 10px;
+}
+.reciever-message{
+    background-color: rgba(255, 255, 255, 0.205);
+    align-self: flex-start;
+    margin-left: 15px;
+    text-align: left;
+    border-radius: 12px 12px 36px 0px;
+}
+.messageTime{
+    font-size: x-small;
+    width: 50px;
+}
+.sender-message{
+    background-color: hsla(180, 74%, 63%, 0.5);
+    align-self: flex-end;
+    margin-right: 15px;
+    text-align: right;
+    border-radius: 12px 12px 0px 36px;
 }
 #chat-input{
     margin-bottom: 10px;

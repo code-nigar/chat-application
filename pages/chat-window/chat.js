@@ -144,9 +144,25 @@ const startChat = async (friendUid, currentUid) => {
       let xnm = doc.data().messageList;
       console.log(xnm);
       for (let i = 0; i < xnm.length; i++) {
-        messageList.innerHTML += `
-       <li>${xnm[i].message}</li>
-       `;
+        if(xnm[i].message != ""){
+          if(xnm[i].sender == current_uid){
+            messageList.innerHTML += `
+            <li class="sender-message">
+              <span>${xnm[i].message}</span>
+              <span class="messageTime">${TStoTime(xnm[i].timestamp)}</span>
+            </li>
+            `;
+          }else{
+            messageList.innerHTML += `
+          <li class="reciever-message">
+            <span>${xnm[i].message}</span>
+            <span class="messageTime">${TStoTime(xnm[i].timestamp)}</span>
+          </li>
+          `;
+          //TStoTime(xnm[i].timestamp)
+          //
+          }
+        }
       }
     });
   } else {
@@ -217,4 +233,19 @@ LogoutBtn.addEventListener("click", function () {
 
 function goBack() {
   window.location.pathname = "index.html";
+}
+
+function TStoTime(ts){
+  let t = ts.toDate();
+  return(formatAMPM(t));
+}
+function formatAMPM(date) {
+  var hours = date.getHours();
+  var minutes = date.getMinutes();
+  var ampm = hours >= 12 ? 'pm' : 'am';
+  hours = hours % 12;
+  hours = hours ? hours : 12; // the hour '0' should be '12'
+  minutes = minutes < 10 ? '0'+minutes : minutes;
+  var strTime = hours + ':' + minutes + ' ' + ampm;
+  return strTime;
 }
