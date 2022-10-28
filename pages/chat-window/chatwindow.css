@@ -44,6 +44,11 @@
     height: inherit;
     gap: 5px;
     justify-content: flex-start;
+    overflow: hidden;
+}
+#convo-list:hover{
+    overflow-y: scroll;
+    overflow-x:visible;
 }
 #convo-list::before{
     content: 'Begin conversation';
@@ -139,6 +144,9 @@
     height: 8vh;
     border-radius: 30px 30px 70px 0px;
 }
+#chatter-name{
+    text-transform: capitalize;
+}
 #chat-body{
     background-color: rgba(0,0,0,0.1);
     width: inherit;
@@ -148,9 +156,13 @@
     display: flex;
     flex-direction: column;
     list-style: none;
-    margin:10px 0;
+    margin:5px 0;
     padding: 0;
-    height: inherit;
+    height: 68vh;
+    overflow: hidden;
+}
+#messageList:hover{
+    overflow-y: scroll;
 }
 #messageList > li{
     width: 50%;
@@ -159,6 +171,7 @@
     border: #999 1px solid;
     display: flex;
     justify-content: space-between;
+    align-items: flex-end;
     flex-direction: row;
     gap: 10px;
 }
@@ -196,6 +209,7 @@
 #send-btn{
     height: inherit;
     margin-right: 5px;
+    display: none;
 }
 #username{
     writing-mode: vertical-lr;

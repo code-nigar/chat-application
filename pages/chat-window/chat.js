@@ -78,7 +78,7 @@ onValue(existingusers, (snapshot) => {
   addClickFun(otherUsers);
 });
 
-//FUNCTION for making existing userList
+//FUNCTION for making existing users List
 function makelist(userArr) {
   for (let i = 0; i < userArr.length; i++) {
     document.getElementById("convo-list").innerHTML += `
@@ -95,6 +95,7 @@ function makelist(userArr) {
      `;
   }
 }
+//FUNCTION to render profile pic for existing users list
 function checkforImg(usrArrr, indx) {
   if (usrArrr[indx].ImageURL) {
     return `<img class="convo-icon-image" src=${usrArrr[indx].ImageURL}>`;
@@ -105,14 +106,15 @@ function checkforImg(usrArrr, indx) {
 //FUNCTION for adding click event .. to begin conversation with selected user
 async function addClickFun(usrArr) {
   await makelist(usrArr); //wait for userlist to appear on DOM
-  var itemLists = document.getElementsByClassName("convo-list-item"); // 5 items
+  var itemLists = document.getElementsByClassName("convo-list-item"); // all items from existing users list
   for (let i = 0; i < itemLists.length; i++) {
     itemLists[i].addEventListener("click", () => {
       //do something
       document.getElementById("chatter-name").innerHTML = usrArr[i].username;
       selectedUserforChat = usrArr[i];
       console.log("start chatting with" + selectedUserforChat.uid);
-      startChat(selectedUserforChat.uid, current_uid);
+      startChat(selectedUserforChat.uid, current_uid);              //grab chat history and enable to carry on chat
+      document.getElementById("send-btn").style.display = "inline-block"; //visible the button to send messages
     });
   }
 }
@@ -139,32 +141,6 @@ const startChat = async (friendUid, currentUid) => {
 
   if (docSnap.exists()) {
     console.log("Document data:", docSnap.data());
-
-    const unsub = onSnapshot(doc(dbf, "messages", `${uniqueUid}`), (doc) => {
-      let xnm = doc.data().messageList;
-      console.log(xnm);
-      for (let i = 0; i < xnm.length; i++) {
-        if(xnm[i].message != ""){
-          if(xnm[i].sender == current_uid){
-            messageList.innerHTML += `
-            <li class="sender-message">
-              <span>${xnm[i].message}</span>
-              <span class="messageTime">${TStoTime(xnm[i].timestamp)}</span>
-            </li>
-            `;
-          }else{
-            messageList.innerHTML += `
-          <li class="reciever-message">
-            <span>${xnm[i].message}</span>
-            <span class="messageTime">${TStoTime(xnm[i].timestamp)}</span>
-          </li>
-          `;
-          //TStoTime(xnm[i].timestamp)
-          //
-          }
-        }
-      }
-    });
   } else {
     // doc.data() will be undefined in this case
     console.log("No such document!");
@@ -179,6 +155,35 @@ const startChat = async (friendUid, currentUid) => {
     });
     console.log("new document created JN!");
   }
+
+  const unsub = onSnapshot(doc(dbf, "messages", `${uniqueUid}`), (doc) => {
+    messageList.innerHTML = "";
+    let xnm = doc.data().messageList;
+    console.log(xnm);
+    for (let i = 0; i < xnm.length; i++) {
+      if(xnm[i].message != ""){
+        if(xnm[i].sender == current_uid){
+          messageList.innerHTML += `
+          <li class="sender-message">
+            <span>${xnm[i].message}</span>
+            <span class="messageTime">${TStoTime(xnm[i].timestamp)}</span>
+          </li>
+          `;
+        }else{
+          messageList.innerHTML += `
+        <li class="reciever-message">
+          <span>${xnm[i].message}</span>
+          <span class="messageTime">${TStoTime(xnm[i].timestamp)}</span>
+        </li>
+        `;
+        //TStoTime(xnm[i].timestamp)
+        //
+        }
+      }
+    }
+  });
+
+
   // const q = query(
   //   collection(dbf, "messages"),
   //   where("chatId", "==", uniqueUid),
@@ -197,19 +202,21 @@ const startChat = async (friendUid, currentUid) => {
 
 window.startChat = startChat;
 let messageValue = document.getElementById("messageValue");
-
+//MESSAGE SENDING FUNCTION
 const sendMessages = async () => {
-  messageList.innerHTML = "";
-  await updateDoc(doc(dbf, "messages", `${uniqueUid}`), {
-    messageList: arrayUnion({
-      message: messageValue.value,
-      sender: auth.currentUser.uid,
-      getter: currentFriendChat,
-      chatId: uniqueUid,
-      timestamp: new Date(),
-    }),
-  }).then(console.log("message sent"));
-  messageValue.value = "";
+  if(messageValue.value != ""){
+    messageList.innerHTML = "";
+    await updateDoc(doc(dbf, "messages", `${uniqueUid}`), {
+      messageList: arrayUnion({
+        message: messageValue.value,
+        sender: auth.currentUser.uid,
+        getter: currentFriendChat,
+        chatId: uniqueUid,
+        timestamp: new Date(),
+      }),
+    }).then(console.log("message sent"));
+    messageValue.value = "";
+  }else{alert("type a message")}
 };
 
 window.sendMessages = sendMessages;
