@@ -84,7 +84,7 @@ onValue(existingusers, (snapshot) => {
 });
 
 //FUNCTION for making existing users List
-function makelist(userArr) {
+async function makelist(userArr) {
   for (let i = 0; i < userArr.length; i++) {
     document.getElementById("convo-list").innerHTML += `
   <button class="convo-list-item flex-c"> 
@@ -95,9 +95,9 @@ function makelist(userArr) {
     </div>
     <div class="convo-lastseen">${checkforActiveStatus(userArr, i)}</div>
   </div>
-  <div class="convo-last-message flex-r">hi how you doing Lorem ipsum, dolor sit amet consectetur adipisicing elit. Delectus quidem ab ex soluta ad possimus vel, fugiat quam, voluptatibus, sapiente voluptates eum architecto doloremque omnis aspernatur sunt eveniet id officiis!</div>
-</button>
-     `;
+  <div class="convo-last-message flex-r">${ await showLastMessage(userArr[i].uid, current_uid)}</div>
+  </button>
+     `; 
   }
 }
 //FUNCTION to render profile pic for existing users list
@@ -303,4 +303,24 @@ function showLastActive(fts){
       }else {return (ftsDate);}
     }else {return (ftsMonth);}
   }else{return (ftsYear);}
+}
+//Function to show Last Send/Recieved Message
+async function showLastMessage(friendID, usrID){
+  let newID;
+  if (usrID > friendID) {
+    newID = usrID+friendID;
+  } else {
+    newID = friendID + usrID;
+  }
+  const docRef = doc(dbf, "messages", `${newID}`);
+  const docSnap = await getDoc(docRef);
+  if (docSnap.exists()) {
+    let lengthOfMessageList = docSnap.data().messageList.length;
+    console.log("last message:", docSnap.data().messageList[lengthOfMessageList-1].message);
+    return (docSnap.data().messageList[lengthOfMessageList-1].message);
+  } else {
+    // doc.data() will be undefined in this case
+    console.log("No last message found!");
+    return "";
+  }
 }
