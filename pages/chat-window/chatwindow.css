@@ -172,8 +172,7 @@
     display: flex;
     justify-content: space-between;
     align-items: flex-end;
-    flex-direction: row;
-    gap: 10px;
+    gap: 2px;
 }
 .reciever-message{
     background-color: rgba(255, 255, 255, 0.205);
@@ -185,6 +184,7 @@
 .messageTime{
     font-size: x-small;
     width: 50px;
+    color: rgba(0, 0, 0, 0.7);
 }
 .sender-message{
     background-color: hsla(180, 74%, 63%, 0.5);

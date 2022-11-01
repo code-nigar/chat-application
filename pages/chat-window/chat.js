@@ -114,7 +114,7 @@ function checkforActiveStatus(usrArrr, indx) {
     return `online`;
   } else {
     if(usrArrr[indx].lastLogin){
-      return `${showLastActive(usrArrr[indx].lastLogin)}`;
+      return `${showLastSeen(usrArrr[indx].lastLogin)}`;
     }
     else return `nnn`;
     //return `${(usrArrr[indx].lastLogin)}`;
@@ -181,16 +181,16 @@ const startChat = async (friendUid, currentUid) => {
       if(xnm[i].message != ""){
         if(xnm[i].sender == current_uid){
           messageList.innerHTML += `
-          <li class="sender-message">
-            <span>${xnm[i].message}</span>
-            <span class="messageTime">${TStoTime(xnm[i].timestamp)}</span>
+          <li class="sender-message flex-c">
+            <div>${xnm[i].message}</div>
+            <div class="messageTime">${TStoTime(xnm[i].timestamp)}</div>
           </li>
           `;
         }else{
           messageList.innerHTML += `
-        <li class="reciever-message">
-          <span>${xnm[i].message}</span>
-          <span class="messageTime">${TStoTime(xnm[i].timestamp)}</span>
+        <li class="reciever-message flex-c">
+          <div>${xnm[i].message}</div>
+          <div class="messageTime">${TStoTime(xnm[i].timestamp)}</div>
         </li>
         `;
         //TStoTime(xnm[i].timestamp)
@@ -250,7 +250,8 @@ LogoutBtn.addEventListener("click", function () {
       const db = getDatabase();
       update(ref(db,`users/${current_uid}`),{   //change active status to offline
         activeStatus : false,
-        lastLogin : FullTimeString(new Date())
+        lastLogin : new Date()
+        //lastLogin : FullTimeString(new Date())
       });
       current_uid = "";
       console.log("Sign-out successful"); // Sign-out successful.
@@ -287,22 +288,23 @@ function FullTimeString(d){
   return (JustDate +' '+ JustTime);
 }
 
-function showLastActive(fts){
-  let ftsYear = fts.slice(7,11);
-  let ftsMonth = fts.slice(0,3)
-  let ftsDate = fts.slice(0,11);
-  let ftsTime = fts.slice(12,20);
-  let today = new Date();
-  let todayYear = today.toDateString().slice(11,15);
-  let todayDate = today.toDateString().slice(4,15);
-  let todayMonth = today.toDateString().slice(4,7);
-  if(ftsYear === todayYear){
-    if(ftsMonth === todayMonth){
-      if(ftsDate === todayDate){
-        return (ftsTime);
-      }else {return (ftsDate);}
-    }else {return (ftsMonth);}
-  }else{return (ftsYear);}
+//Last Active Seen functionality
+function showLastSeen(fts){     //fts means FullTimeString
+  let ts = new Date(fts).getTime();
+  let currentTime = new Date().getTime();
+  let passedSec, passedMin, passedHr, passedDay;
+  passedSec = Math.round(((currentTime) / 1000) % 60);
+  passedMin = Math.floor(((currentTime - ts) / (60 * 1000)) % 60);
+  passedHr = Math.floor(((currentTime - ts) / (60 * 60 * 1000)) % 24);
+  passedDay = Math.floor(( currentTime - ts) / (24 * 60 * 60 * 1000));
+  // console.log(
+  //   passedSec + "s \n" + passedMin + "m \n" + passedHr + "h \n" + passedDay + "d"
+  // );
+  if(passedDay<=0){
+    if(passedHr<=0){
+      return passedMin+" min";
+    } else return passedHr+" hr";
+  }else return passedDay+" d";
 }
 //Function to show Last Send/Recieved Message
 async function showLastMessage(friendID, usrID){
