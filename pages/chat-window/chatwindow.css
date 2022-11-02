@@ -23,6 +23,7 @@
 }
 #chatwindow{
     gap: 4px;
+    height: 100vh;
 }
 #nav-panel{
     width: 53px;
@@ -183,8 +184,9 @@
 }
 .messageTime{
     font-size: x-small;
-    width: 50px;
+    width: 150px;
     color: rgba(0, 0, 0, 0.7);
+    align-self: inherit;
 }
 .sender-message{
     background-color: hsla(180, 74%, 63%, 0.5);
@@ -192,6 +194,9 @@
     margin-right: 15px;
     text-align: right;
     border-radius: 12px 12px 0px 36px;
+}
+.messageText{
+    align-self: inherit;
 }
 #chat-input{
     margin-bottom: 10px;
@@ -201,15 +206,28 @@
     background-color: rgba(0,0,0,0.1);
     padding: 0.7em 0em;
 }
-#chat-input>input{
+#messageValue{
     width: 43vw;
     height: inherit;
     margin-left: 5px;
+    background: #11989811;
+    border: none;
+    border-radius: 12px 12px 0px 24px;
+    box-shadow: 1px 1px 5px hsl(0deg 0% 50%);
+    padding: 0px 10px;
+    color: rgb(9, 59, 59);
 }
 #send-btn{
     height: inherit;
     margin-right: 5px;
     display: none;
+    background-color: transparent;
+    border: none;
+    font-size: large;
+    color: rgb(9, 59, 59);
+}
+#send-btn:hover{
+    transform: scale(1.1);
 }
 #username{
     writing-mode: vertical-lr;
@@ -225,4 +243,72 @@
 }
 #logout-btn:hover{
     color: rgb(200, 200, 200)
+}
+#setting-btn, #friendlist-btn{
+    display: none;
+}
+@media (max-width: 560px) {
+    #convo-panel{
+        position: absolute;
+        top: 0;
+        height: 85vh;
+        width: 97vw;
+        padding-bottom: 0;
+        display: none;
+    }
+    #chatwindow{
+        flex-direction: column-reverse;
+        justify-content: space-between;
+        align-items: center;
+    }
+    #chat-panel{
+        position: absolute;
+        top: 0;
+        height: 86vh;
+        width: 97vw;
+        padding-bottom: 0;
+    }
+    #chat-header{
+        height: 8%;
+        border-radius: 15px 15px 35px 0px;
+    }
+    #chat-body{
+        background-color: rgba(0,0,0,0.1);
+        width: inherit;
+        height: 70%;
+    }
+    #chat-input{
+        width: inherit;
+        gap: 8px;
+        background-color: rgba(0,0,0,0.1);
+        padding: 0.7em 0em;
+    }
+    #messageList {
+        height: 97%;
+    }
+    #messageValue{
+        width: 80%;
+    }
+    #nav-panel{
+        margin: 0;
+        position: absolute;
+        bottom: 0;
+        z-index: 100;
+        height: 50px;
+        width: 95vw;
+        flex-direction: row;
+        justify-content: center;
+    }
+    #nav-top{
+        display: inline-flex;
+        flex-direction: row;
+        justify-content: space-around;
+        width: 100%;
+    }
+    #bottom-nav{
+        display: none;
+    }
+    #friendlist-btn, #setting-btn{
+        display: block;
+    }
 }

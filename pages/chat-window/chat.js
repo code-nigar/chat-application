@@ -111,12 +111,12 @@ function checkforImg(usrArrr, indx) {
 //FUNCTION to render active status for existing users list
 function checkforActiveStatus(usrArrr, indx) {
   if (usrArrr[indx].activeStatus) {
-    return `online`;
+    return `<i class="fa-solid fa-circle"></i>`;
   } else {
     if(usrArrr[indx].lastLogin){
       return `${showLastSeen(usrArrr[indx].lastLogin)}`;
     }
-    else return `nnn`;
+    else return `---`;
     //return `${(usrArrr[indx].lastLogin)}`;
   }
 }
@@ -131,7 +131,11 @@ async function addClickFun(usrArr) {
       selectedUserforChat = usrArr[i];
       console.log("start chatting with" + selectedUserforChat.uid);
       startChat(selectedUserforChat.uid, current_uid);              //grab chat history and enable to carry on chat
-      document.getElementById("send-btn").style.display = "inline-block"; //visible the button to send messages
+      document.getElementById("send-btn").style.display = "inline-block"; //visible the button to send messages    
+      if(screen.width <= 500){
+        document.getElementById("chat-panel").style.display ='flex';
+        document.getElementById("convo-panel").style.display = 'none';
+      }
     });
   }
 }
@@ -182,14 +186,14 @@ const startChat = async (friendUid, currentUid) => {
         if(xnm[i].sender == current_uid){
           messageList.innerHTML += `
           <li class="sender-message flex-c">
-            <div>${xnm[i].message}</div>
+            <div class="messageText">${xnm[i].message}</div>
             <div class="messageTime">${TStoTime(xnm[i].timestamp)}</div>
           </li>
           `;
         }else{
           messageList.innerHTML += `
         <li class="reciever-message flex-c">
-          <div>${xnm[i].message}</div>
+          <div class="messageText">${xnm[i].message}</div>
           <div class="messageTime">${TStoTime(xnm[i].timestamp)}</div>
         </li>
         `;
@@ -198,6 +202,7 @@ const startChat = async (friendUid, currentUid) => {
         }
       }
     }
+    messageList.scrollTo({ left: 0, top: document.body.scrollHeight, behavior: "smooth" });
   });
 
 
@@ -268,7 +273,14 @@ function goBack() {
 
 function TStoTime(ts){
   let t = ts.toDate();
-  return(formatAMPM(t));
+  let d = new Date();
+  if(t.toDateString() == d.toDateString()){
+    return(formatAMPM(t));
+  }
+  else{
+    return(`${t.getDate()}/${t.getMonth()+1}/${t.getFullYear()} ${formatAMPM(t)}`);
+  }
+  //return(formatAMPM(t));
 }
 function formatAMPM(date) {
   var hours = date.getHours();
@@ -326,3 +338,11 @@ async function showLastMessage(friendID, usrID){
     return "";
   }
 }
+
+document.getElementById("friendlist-btn").addEventListener('click',()=>{
+  if(screen.width <=500){ 
+    document.getElementById("chat-panel").style =`display: none;`;
+    document.getElementById("convo-panel").style.display = 'flex';
+    document.getElementById("chatwindow-btn").style = `background: none;`
+  }
+})

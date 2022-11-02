@@ -47,6 +47,21 @@
 #save-btn{
     position: relative;
     top: 125px;
+    background: transparent;
+    border: none;
+    border-radius: 1rem;
+    padding: 0.3rem 0.5rem;
+    color: #888;
+    box-shadow: 1px 1px 5px #888;
+}
+#save-btn:hover{
+    color: rgb(9,59,59);
+    box-shadow: 1px 1px 5px #000;
+}
+#save-btn:focus{
+    color: #fff;
+    background-color: rgb(9,59,59);
+    box-shadow: 1px 1px 5px #333;
 }
 #file{
     display: none;
@@ -64,4 +79,15 @@
     margin: auto;
     padding: 50% 0;
     border-radius: 50%;
+}
+@media (max-width:560px) {
+    #profile-panel{
+        position: absolute;
+        top: 0;
+        height: 85vh;
+        width: 95vw;
+    }
+    #friendlist-btn{
+        display: none;
+    }
 }

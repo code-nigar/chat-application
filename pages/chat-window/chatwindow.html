@@ -4,8 +4,9 @@
     <meta charset="UTF-8" />
     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Chatting..</title>
+    <title>Chatify</title>
     <link href="../chat-window/chatwindow.css" rel="stylesheet" />
+    <link rel="shortcut icon" href="https://firebasestorage.googleapis.com/v0/b/chat-app-45705.appspot.com/o/Images%2Fchatcoin-chat-logo.png?alt=media&token=824cc8d8-0213-471a-a1f7-4ad29b10a4e8" type="png">
     <link
       href="https://fonts.googleapis.com/css2?family=Exo:wght@300;400;600&family=Sora:wght@100;300;400;600&display=swap"
       rel="stylesheet"
@@ -37,14 +38,15 @@
           </a>
           <a
             href="#"
-            id="home-btn"
+            id="chatwindow-btn"
             class="nav-ico"
-            style="
-              background-color: rgba(255, 255, 255, 0.2);
-              padding: 5px;
-              border-radius: 5px;
-            "
+            
           >
+          <!-- style="
+          background-color: rgba(255, 255, 255, 0.2);
+          padding: 5px;
+          border-radius: 5px;
+        " -->
             <lord-icon
               src="https://cdn.lordicon.com/hpivxauj.json"
               trigger="hover"
@@ -53,7 +55,7 @@
             >
             </lord-icon>
           </a>
-          <a href="" id="home-btn" class="nav-ico">
+          <div id="friendlist-btn" class="nav-ico">
             <lord-icon
               src="https://cdn.lordicon.com/pnhskdva.json"
               trigger="hover"
@@ -61,8 +63,8 @@
               style="width: 40px; height: 40px"
             >
             </lord-icon>
-          </a>
-          <a href="" id="home-btn" class="nav-ico">
+          </div>
+          <div id="setting-btn" class="nav-ico">
             <lord-icon
               src="https://cdn.lordicon.com/hwuyodym.json"
               trigger="hover"
@@ -70,7 +72,7 @@
               style="width: 40px; height: 40px"
             >
             </lord-icon>
-          </a>
+          </div>
         </div>
         <div id="bottom-nav">
           <div id="username"><!--currently logged-in username--></div>
@@ -105,7 +107,7 @@
         </div>
         <div id="chat-input" class="flex-r">
           <input type="text" id="messageValue"/>
-          <button id="send-btn" onclick="sendMessages()">send</button>
+          <button id="send-btn" onclick="sendMessages()"><i class="fa-regular fa-paper-plane"></i></button>
         </div>
       </div>
     </div>
